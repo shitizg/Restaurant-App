@@ -1,0 +1,8 @@
+$def with (cpl)
+<table>
+   <tr><td>Waiter ID</td><td>Time</td><td>Complaint</td></tr>
+   $for cp in cpl:
+   <tr>
+      <td>$cp.waiter_id</td><td>$cp.stime</td><td>$cp.complaint</td>
+   </tr>
+</table>

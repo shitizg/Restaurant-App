@@ -1,0 +1,99 @@
+$def with (items, tags)
+<table>
+   <tr>
+      <td>Item</td><td>Description</td><td>Available</td><td>Price</td><td>Picture</td>
+   </tr>
+$for item in items:
+   <tr>
+      <td>$item.name</td><td>$item.description</td>
+      <td>
+         $if item.available:
+            Yes
+         $else:
+            No
+      </td>
+      <td><form method=POST action='/menu_editor'>
+            <input type=hidden name=item value=$item.id />
+            <input type=hidden name=action value=update />
+            <input type=text name=price value=$item.price />
+            <input type=submit name=update value=Update />
+         </form> </td>
+      <td>
+            $if len(item.picture)>0:
+                <img src="/$item.picture" wdith=100px, heigh=100px></img>
+
+            $else:
+                no picture
+      </td>
+      <td>
+        <form method=POST action="/menu_editor">
+            <input type=hidden name=item value=$item.id />
+            $if item.available:
+               <input type=hidden name=action value=hide />
+               <input type=submit name=delete value=Hide />
+            $else:
+               <input type=hidden name=action value=show />
+               <input type=submit name=delete value=Show />
+         </form>
+      </td>
+      <td><form method=POST action="/menu_editor">
+            <input type=hidden name=item value=$item.id />
+            <input type=hidden name=action value=delete />
+            <input type=hidden name=picture value="$item.picture"/>
+            <input type=submit name=delete value=Delete />
+         </form>
+      </td>
+    <td><form method=POST action="/menu_editor">
+      <select name=utype>
+        $for category in tags:
+        <option value=$category.id>$category.category</option>
+      </select>
+        <input type=hidden name=item value=$item.id />
+        <input type=hidden name=action value=category />
+        <input type=hidden name=category_id value=$category.id />
+        <input type=submit name=category value='Set Tag' />
+      </form>
+    </td>
+    <td><form method=POST action="/menu_editor">
+      <select name=utype>
+        $for category in tags:
+        <option value=$category.id>$category.category</option>
+      </select>
+      <input type=hidden name=item value=$item.id />
+      <input type=hidden name=action value=delete_category />
+      <input type=hidden name=category_id value=$category.id />
+      <input type=submit name=category value='Remove Tag' />
+    </form>
+  </td>
+   </tr>
+</table>
+
+<form name="Create item" enctype="multipart/form-data" action='/menu_editor' method=POST>
+   Item Name:
+   <input type=text name='item' />
+   Description:
+   <input type=textview name='description' />
+   Price:
+   <input type=text name='price' />
+   <input type=hidden name=action value='create' />
+   Picture:
+   <input type=file name='picture' />
+   <input type=submit name="create" value="Create" />
+</form>
+
+
+<form name="Create category" action='/create_category' method=POST>
+  Category Name:
+  <input type=text name='category' />
+  <input type=submit name="create" value="Create" />
+</form>
+
+<form name="Delete category" action='/delete_category' method=POST>
+  Category Name:
+  <select name=utype>
+    $for category in tags:
+    <option value=$category.id>$category.category</option>
+  </select>
+  <input type=hidden name=category_id value=$category.id />
+  <input type=submit name=category value=Delete />
+</form>

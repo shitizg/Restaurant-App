@@ -1,0 +1,18 @@
+$def with (olist)
+   <table>
+      <tr>
+      <td>Active Orders:</td>
+      </tr>
+   $for order in olist:
+      $if order.id != 1:
+         <tr>
+            <td>$order.id</td>
+            <td>
+               <form name="complete_order" method="post" action="/complete_order">
+                  <input type=submit name="complete_order" value="Complete Order" />
+                  <input type=hidden name=order_id value='$order.id' />
+               </form>
+            </td>
+         </tr>
+   </table>
+<a href="/complaints">See Complaints</a>

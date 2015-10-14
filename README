@@ -1,0 +1,42 @@
+building and dependencies:
+For ubuntu linux
+
+# Python 2.7 and libffi-dev and sqlite3
+sudo apt-get install python python-pip libffi-dev sqlite3
+
+# required python modules
+sudo pip install web.py bcrypt nose2 nose mock pysqlite
+
+Setup the database:
+sqlite3 rest.db
+then from the sqlite command line '.read sql/create.sql'
+
+
+Running the application
+
+python main.py # starts the server on localhost:8080
+nosetests # runs the tests
+
+going to http://localhost:8080 in the browser brings up the login screen
+the base users are manager,assistant, and waiter
+all passwords are 'password'
+
+logging in as a user brings up that users control panel
+
+Manager
+-------
+Lists all the users.
+provides a form to create a new user
+click the delete button next to a user to delete.
+
+Kitchen assistant
+-----------------
+Lists all active orders.
+When an order is complete, click the complete order button and the order is marked as done.
+
+Waiter
+------
+get order -> enter in the order number, and it will list the menu items and quantity in the order
+add item -> adds a new item to an order given the items id and the menu id
+update item -> enter the item and order and a new quantity for the order to update the ordered quantity
+

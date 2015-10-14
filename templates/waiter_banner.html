@@ -1,0 +1,19 @@
+$def with (mlist, message, alerts)
+<form name="new_order" method="post" action="/new_order">
+   <input type=submit name="new_order" value="Add Order" />
+</form>
+
+<form name="get_order" method="get" action="/ret_order">
+   Get Order: <input type=text id=order_id name="order_id" value="" /> <br>
+</form>
+
+<form name="kitchen_status" method="get" action="/kitchen_status">
+   <input type=submit name="kitchen_status" value="Kitchen Status" /> <br>
+</form>
+<a href="/complaints">See Complaints</a>
+<br>
+
+$for alert in alerts:
+   Alert from $alert.order_id at $alert.stime </br>
+
+$message

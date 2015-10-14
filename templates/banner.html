@@ -1,0 +1,17 @@
+$def with (loggedin)
+<a href="/">Main</a>
+$if loggedin:
+   <a href="/user/info">Profile</a>
+   <form name="logout" method="post" action="/logout">
+      <input type='submit' name="logout" value="Logout" />
+   </form>
+$else:
+   <form method="post" id="login" action="/login">
+      <input type=text id='username' name='username'>/
+      <input type=password id='password' name='password'/>
+      <input type=submit name='submitted' value='login'/>
+   </form><br>
+   <form method="POST" id="customer_login" action="/customer_login">
+      <input type=text name="order_id" value="Insert Order #">
+      <input type=submit name="customer_login" value="Customer">
+  </form>

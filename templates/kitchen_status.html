@@ -1,0 +1,28 @@
+$def with (olist, olist2)
+     Kitchen Status
+     <table>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td>Active Orders:</td>
+        </tr>
+     $for order in olist:
+        <tr>
+           <td>$order.id</td>
+        </tr>
+     </table>
+
+     <table>
+        <tr>
+        <td>Completed Orders:</td>
+        <tr>
+     $for order in olist2:
+        <tr>
+          <td>$order.id</td>
+        </tr>
+     </table>
+
+<form name='back' method='get' action='/'>
+   <input type=submit name='back' value='Back' />
+</form>

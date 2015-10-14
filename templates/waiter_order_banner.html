@@ -1,0 +1,49 @@
+$def with (order_id, olist, receipt)
+<table>
+   <tr>
+      <td>Menu Item</td><td>Price</td><td>Quantity</td>
+   </tr>
+$for order in olist:
+   <tr>
+      <td>$order.name</td><td>$order.price</td><td>$order.qty</td>
+      <td><form name='move_to_top' method='POST' action='/move_to_top'>
+         <input type=hidden name=order_id value=$order_id />
+         <input type=hidden name=item_id value=$order.item_id />
+         <input type=hidden name=qty value=$order.qty />
+         <input type=submit name='move_to_top' value='Move To Top' />
+      </form></td>
+   </tr>
+</table>
+<br>
+
+$if receipt.paid != 2:
+   <form name='generate_recipt' method='POST' action='/receipt'>
+      <input type=hidden name=order_id value=$order_id />
+      <input type=submit name='receipt' value='Generate Receipt' />
+   </form>
+<br>
+$if receipt.paid == 1:
+   <tr>
+      <td>Customer has submitted payment.</td>
+   <td><form name='accept' method=POST action='/pay'>
+      <input type=hidden name=action value=accept />
+      <input type=hidden name=order_id value=$order_id />
+      <input type=submit name=accept value=Accept />
+   </form></td>
+   <td><form name='reject' method=POST action='/pay'>
+      <input type=hidden name=action value=reject />
+      <input type=hidden name=order_id value=$order_id />
+      <input type=submit name=reject value=Reject />
+   </form></td>
+   </tr>
+$if receipt.paid == 2:
+   <tr>
+      <td>Order is complete.</td>
+   </tr>
+<br>
+
+<td>Receipt Total: $receipt.total</td>
+
+<form name='back' method='get' action='/'>
+   <input type=submit name='back' value='Back' />
+</form>

@@ -1,0 +1,87 @@
+$def with(items, order, orlist, tags)
+
+<table>
+   <tr>
+      <td>Menu Item</td><td>Price</td><td>Description</td><td>Picture</td>
+   </tr>
+   $for item in items:
+   <tr>
+      <td>$item.name</td>
+      <td>$item.price</td>
+      <td>$item.description</td>
+      <td>
+          $if len(item.picture)>0:
+              <img src="$item.picture",height=100px, weight=100px></img>
+          $else:
+              no picture
+      </td>
+      <br>
+      $if item.available:
+         <td><form method=POST action='/customer_menu'>
+            <input type=hidden name=item value=$item.id />
+            <input type=hidden name=action value=order />
+            <input type=hidden name=order_id value=$order />
+            <input type=submit name=order value=Order /><br>
+         </form> </td>
+      $else:
+         <td>Item Unavailable</td>
+    </tr>
+</table>
+
+<tr><td>View Items in Selected Category:</td>
+  <td>
+    <form name="Categories" action='/categories' method=POST>
+      <select name=category>
+        $for category in tags:
+         <option value=$category.id>$category.category</option>
+      </select>
+     	  <input type=hidden name=order_id value=$order />
+         <input type=submit name="action" value='category' />
+    </form>
+  </td>
+</tr>
+
+
+<form name="complaint" method="post" action="/complaint">
+   <input type=text name=complaint value="" />
+   <input type=hidden name=order_id value=$order />
+   <input type=submit name=sub value=Complaint />
+</form>
+<br>
+
+<form name="alert" method="post" action="/alert">
+   <input type=hidden name=order_id value=$order />
+   <input type=submit name=alert value=Alert />
+</form>
+<br>
+
+<td> </td>
+<td>Order: </td><td>$order</td><br>
+<table>
+   <tr>
+      <td>Menu Item</td><td>Price</td><td>Quantity</td>
+   </tr>
+   <tr>
+$for item in orlist:
+   <tr>
+      <td>$item.name</td><td>$item.price</td><td>$item.qty</td></td>
+      <td><form method=POST action="/customer_menu">
+         <input type=hidden name=item value=$item.id />
+         <input type=hidden name=action value=remove />
+         <input type=hidden name=order_id value=$order />
+         <input type=submit name=remove value=Remove /><br>
+         </form> </td>
+      <td><form name="Update Qty" action='/update_qty' method=POST>
+        <input type=text name=qty value=$item.qty />
+        <input type=hidden name=item_id value=$item.id />
+        <input type=hidden name=order_id value=$order />
+        <input type=submit name=submit value='Update Qty' />
+      </form>
+   </tr>
+</table>
+<br>
+
+<form name="print_receipt" method=GET action="/receipt">
+   <input type=hidden name=order_id value=$order />
+   <input type=submit name=receipt value="Receipt" />
+</form>

@@ -1,0 +1,47 @@
+$def with(order, orlist, receipt)
+
+<td>Order: </td><td>$order</td><br>
+<table>
+   <tr>
+      <td>Menu Item</td><td>Price</td><td>Quantity</td>
+   </tr>
+
+$for item in orlist:
+   <tr>
+      <td>$item.name</td><td>$item.price</td><td>$item.qty</td>
+   </tr>
+
+</table>
+<br>
+
+$if int(receipt.order_id) != int(order):
+   <tr>
+      <td>Ask Waiter for Receipt.</td>
+   </tr>
+$else:
+   <tr>
+      <td>$receipt.total</td>
+   </tr> 
+   <br>
+   $if int(receipt.paid) == 0:
+      <form name="pay" method="post" action="/pay">
+         <input type=hidden name=order_id value=$order />
+         <input type=submit name=pay value=Pay />
+      </form>
+   $elif int(receipt.paid) == 1:
+      <form name="check_receipt" method=GET action="/receipt">
+         <input type=hidden name=order_id value=$order />
+         <input type=submit name=receipt value="Click to Check Receipt" />
+      </form>
+   $elif int(receipt.paid) == 2:
+      <tr>
+         <td>Payment Accepted.</td>
+      </tr> 
+   
+<br>
+
+<form name="back" method="post" action="/customer_menu">
+   <input type=hidden name=order_id value=$order />
+   <input type=submit name=back value=Back />
+</form>
+<br>

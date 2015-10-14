@@ -1,0 +1,46 @@
+$def with (users)
+<table>
+   <tr>
+   <td>Username</td><td>Position</td>
+   </tr>
+$for user in users:
+   <tr>
+      <td>$user.uname</td><td>$user.utype</td>
+      <td><form method=POST action="/manager">
+            <input type=hidden name=uname value=$user.uname />
+            <input type=hidden name=action value=delete />
+            <input type=submit name=delete value=Delete />
+         </form>
+      </td>
+   </tr>
+</table>
+
+<form name="Modify User" action='/manager' method=POST>
+  <input type=text name='uname' />
+  <select name=utype>
+      <option value=2>Waiter</option>
+      <option value=3>Kitchen Assistant</option>
+      <option value=1>Manager</option>
+  </select>
+  <input type=hidden name=action value='modify' />
+  <input type=submit name="modify" value="modify" />
+</form>
+
+<form name="Create User" action='/manager' method=POST>
+   <input type=text name='uname' />
+   <input type=password name='pword' />
+   <select name=utype>
+      <option value=2>Waiter</option>
+      <option value=3>Kitchen Assistant</option>
+      <option value=1>Manager</option>
+   </select>
+   <input type=hidden name=action value='create' />
+   <input type=submit name="create" value="Create" />
+</form>
+
+<form name="kitchen_status" method="get" action="/kitchen_status">
+    <input type=submit name="kitchen_status" value="Kitchen Status" /> <br>
+</form>
+
+<a href='/menu_editor'>Edit Menu</a>
+<a href="/complaints">See Complaints</a>
